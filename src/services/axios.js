@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const storage = require('@/utils/localStorage');
+
 export default ({ requiresAuth = false } = {}) => {
     const options = {};
 
@@ -7,7 +9,7 @@ export default ({ requiresAuth = false } = {}) => {
 
     if (requiresAuth) {
         options.headers = {
-            'token': localStorage.getItem('token'),
+            'Authorization': 'Bearer ' + storage.get('token'),
         };
     }
 

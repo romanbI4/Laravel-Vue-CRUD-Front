@@ -1,14 +1,15 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import Login from '../components/LoginComponent.vue'
-import Registration from '../components/RegistationComponent.vue'
-import ResetPassword from '../components/ResetPasswordComponent.vue'
-import Logout from '../components/LogoutComponent.vue'
-import ListCompanies from '../components/companies/ListComponent.vue'
-import CreateCompany from '../components/companies/CreateComponent.vue'
-import EditCompany from '../components/companies/EditComponent';
+import Login from '@/pages/LoginPage.vue'
+import Registration from '@/pages/RegistationPage.vue'
+import ListCompanies from '@/pages/companies/ListPage.vue'
+import CreateCompany from '@/pages/companies/CreatePage.vue'
+import EditCompany from '@/pages/companies/EditPage.vue';
+import Logout from '@/pages/LogoutPage.vue';
+
+const storage = require('@/utils/localStorage');
 
 const ifAuthenticated = () => {
-    return !!localStorage.getItem('token');
+    return !!storage.get('token');
 };
 
 const routes = [
@@ -25,15 +26,6 @@ const routes = [
         path: '/registration',
         name: 'Registration',
         component: Registration,
-        meta: { requiresAuth: false },
-        beforeEnter: () => {
-            return !ifAuthenticated()
-        },
-    },
-    {
-        path: '/resetPassword',
-        name: 'ResetPassword',
-        component: ResetPassword,
         meta: { requiresAuth: false },
         beforeEnter: () => {
             return !ifAuthenticated()
