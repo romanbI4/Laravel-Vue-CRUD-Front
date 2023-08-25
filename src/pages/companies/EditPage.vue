@@ -13,8 +13,7 @@
 <script>
 import InputComponent from '@/components/InputComponent.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
-
-const company = require('@/services/api/companyRequest');
+import {getById, updateById} from '@/services/api/companyRequest';
 
 export default {
   data() {
@@ -25,7 +24,8 @@ export default {
       loading: false,
       description: "",
       errors: "",
-      data: []
+      data: [],
+      id: this.$route.params.id,
     };
   },
   mounted() {
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     async getCompanyById() {
-      const response = await company.getById(this.$route.params.id);
+      const response = await getById(this.id);
 
       this.title = response.title;
       this.description = response.description;
@@ -41,12 +41,6 @@ export default {
     },
     async handleSubmit() {
       this.submitted = true;
-      
-      const {title, phone, description} = this;
-
-      if (!(title || phone || description)) {
-        return;
-      }
 
       this.loading = true;
 
@@ -56,11 +50,12 @@ export default {
         'description': this.$data.description,
       };
 
-      const response = await company.updateById(this.$route.params.id, this.data);
+      const response = await updateById(this.id, this.data);
 
       if (response.errors) {
         this.errors = response.errors;
         this.loading = response.loading;
+        this.submitted = response.submitted;
       }
 
     }

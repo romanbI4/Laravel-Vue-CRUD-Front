@@ -1,4 +1,4 @@
-export function set(fields){
+export function setFields(fields){
     const form = new FormData();
 
     Object.keys(fields).forEach(function(key) {

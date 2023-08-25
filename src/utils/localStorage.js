@@ -1,11 +1,11 @@
-export function set(key, value){
+export function setValue(key, value){
     return localStorage.setItem(key, value);
 }
 
-export function get(key){
+export function getValue(key){
     return localStorage.getItem(key);
 }
 
-export function remove(key){
+export function removeValue(key){
     return localStorage.removeItem(key);
 }

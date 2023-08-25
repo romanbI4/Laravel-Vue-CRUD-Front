@@ -4,8 +4,7 @@
 </template>
 
 <script>
-
-const auth = require('@/services/api/authRequest');
+import {logout} from '@/services/api/authRequest';
 
 export default {
   mounted() {
@@ -13,7 +12,7 @@ export default {
   },
   methods: {
     async logout() {
-      await auth.logout();
+      await logout();
     }
   }
 }

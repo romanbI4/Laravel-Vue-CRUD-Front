@@ -15,9 +15,8 @@
 import ErrorComponent from '@/components/ErrorComponent.vue';
 import InputComponent from '@/components/InputComponent.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
-
-const company = require('@/services/api/companyRequest');
-const form = require('@/utils/form');
+import {create} from '@/services/api/companyRequest';
+import {setFields} from '@/utils/form';
 
 export default {
     data() {
@@ -33,11 +32,6 @@ export default {
     methods: {
         async handleSubmit() {
             this.submitted = true;
-
-            const { title, phone, description } = this;
-            if (!(title || phone || description)) {
-                return;
-            }
             
             this.loading = true;
 
@@ -47,13 +41,14 @@ export default {
               "description": this.description
             };
 
-            const data = form.set(fields);
+            const data = setFields(fields);
 
-            const response = await company.create(data);
+            const response = await create(data);
 
             if (response.errors) {
               this.errors = response.errors;
               this.loading = response.loading;
+              this.submitted = response.submitted;
             }
         }
     },

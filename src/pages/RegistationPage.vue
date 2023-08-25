@@ -15,9 +15,8 @@
 <script>
 import InputComponent from '@/components/InputComponent.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
-
-const auth = require('@/services/api/authRequest');
-const form = require('@/utils/form');
+import {register} from '@/services/api/authRequest';
+import {setFields} from '@/utils/form';
 
 export default {
     data() {
@@ -36,11 +35,6 @@ export default {
     methods: {
         async handleSubmit() {
             this.submitted = true;
-
-            const { email, password, last_name, first_name, phone } = this;
-            if (!(email || password || last_name || first_name || phone)) {
-              return;
-            }
             
             this.loading = true;
 
@@ -52,13 +46,14 @@ export default {
               "phone": this.phone
             };
 
-            const data = form.set(fields);
+            const data = setFields(fields);
 
-            const response = await auth.register(data);
+            const response = await register(data);
 
             if (response.errors) {
               this.errors = response.errors;
               this.loading = response.loading;
+              this.submitted = response.submitted;
             }
         }
     },

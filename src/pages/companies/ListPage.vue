@@ -4,8 +4,7 @@
 
 <script>
 import CompanyTableComponent from '@/components/CompanyTableComponent.vue';
-
-const company = require('@/services/api/companyRequest');
+import {getList} from'@/services/api/companyRequest';
 
 export default {
     data() {
@@ -21,7 +20,7 @@ export default {
     },
     methods: {
         async getList() {
-            this.companies = await company.getList();
+            this.companies = await getList();
         }
     },
     components: { CompanyTableComponent }

@@ -28,12 +28,17 @@
             {{company.updated_at}}
           </td>
           <td>
-            <a :href="`/companies/${company.id}`" class="btn">
+            <router-link :to="{
+                  name: 'EditCompany',
+                  params: { 
+                    id: company.id 
+                  },
+                }" class="btn">
               <i class="material-icons">edit</i>
-            </a>
-            <a href="#" @click="deleteCompany(`${company.id}`);" class="btn">
+            </router-link>
+            <router-link to="#" @click="deleteCompany(`${company.id}`);" class="btn">
               <i class="material-icons">delete</i>
-            </a>
+            </router-link>
           </td>
         </tr>
       </tbody>
@@ -41,7 +46,7 @@
 </template>
 
 <script>
-const company = require('@/services/api/companyRequest');
+import { deleteByid } from '@/services/api/companyRequest';
 
 export default {
     props: [
@@ -50,7 +55,7 @@ export default {
     ],
     methods: {
         deleteCompany(id) {
-            company.deleteByid(id);
+          deleteByid(id);
         }
     }
 }

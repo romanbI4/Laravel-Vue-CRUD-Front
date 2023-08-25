@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const storage = require('@/utils/localStorage');
+import { getValue } from '@/utils/localStorage';
 
 export default ({ requiresAuth = false } = {}) => {
     const options = {};
@@ -9,7 +8,7 @@ export default ({ requiresAuth = false } = {}) => {
 
     if (requiresAuth) {
         options.headers = {
-            'Authorization': 'Bearer ' + storage.get('token'),
+            'Authorization': 'Bearer ' + getValue('token'),
         };
     }
 

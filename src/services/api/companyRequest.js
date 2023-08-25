@@ -13,6 +13,7 @@ export function getList(){
             return error.response.data;
         })
         .finally(() => {
+            this.submitted = false;
             this.loading = false;
         });
 }
@@ -27,6 +28,7 @@ export function getById(id){
             return error.response.data;
         })
         .finally(() => {
+            this.submitted = false;
             this.loading = false;
         });
 }
@@ -43,6 +45,7 @@ export function deleteByid(id){
             return error.response.data;
         })
         .finally(() => {
+            this.submitted = false;
             this.loading = false;
         });
 }
@@ -59,7 +62,8 @@ export function updateById(id, data){
               return error.response.data;
           })
           .finally(() => {
-              this.loading = false;
+            this.submitted = false;
+            this.loading = false;
           });
 }
 
@@ -75,6 +79,7 @@ export function create(data){
               return error.response.data;
           })
           .finally(() => {
-              this.loading = false;
+            this.submitted = false;
+            this.loading = false;
           });
 }

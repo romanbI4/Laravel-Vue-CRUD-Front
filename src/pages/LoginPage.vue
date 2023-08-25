@@ -14,9 +14,8 @@
 import ErrorComponent from '@/components/ErrorComponent.vue';
 import InputComponent from '@/components/InputComponent.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
-
-const auth = require('@/services/api/authRequest');
-const form = require('@/utils/form');
+import {login} from '@/services/api/authRequest';
+import {setFields} from '@/utils/form';
 
 export default {
     data() {
@@ -34,12 +33,6 @@ export default {
         async handleSubmit() {
             this.submitted = true;
 
-            const { email, password } = this;
-
-            if (!(email && password)) {
-              return;
-            }
-
             this.loading = true;
             
             const fields = {
@@ -47,13 +40,14 @@ export default {
               'password' : this.password,
             };
 
-            const data = form.set(fields);
+            const data = setFields(fields);
 
-            const response = await auth.login(data);
+            const response = await login(data);
 
             if (response.errors) {
               this.errors = response.errors;
               this.loading = response.loading;
+              this.submitted = response.submitted;
             }
 
         }

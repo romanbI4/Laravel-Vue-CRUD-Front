@@ -1,13 +1,12 @@
 import client from '@/services/axios';
 import router from "@/router";
-
-const storage = require('@/utils/localStorage');
+import {setValue, removeValue} from '@/utils/localStorage';
 
 export function login(credentials){
     return client()
         .post('/user/login', credentials)
         .then(response => {
-            storage.set("token", response.data.token);
+            setValue("token", response.data.token);
             router.push('/companies');
             return response.data;
         })
@@ -15,6 +14,7 @@ export function login(credentials){
             return error.response.data;
         })
         .finally(() => {
+            this.submitted = false;
             this.loading = false;
         });
 }
@@ -30,6 +30,7 @@ export function register(data){
             return error.response.data;
         })
         .finally(() => {
+            this.submitted = false;
             this.loading = false;
         });
 }
@@ -38,13 +39,14 @@ export function logout(){
     return client({requiresAuth: true})
         .post('/user/logout')
         .then((response) => {
-            localStorage.removeItem('token');
+            removeValue('token');
             router.push('/login');
             return response.data;
         })
         .catch(error => {
             return error.response.data;
         }).finally(() => {
+            this.submitted = false;
             this.loading = false;
         });
 }

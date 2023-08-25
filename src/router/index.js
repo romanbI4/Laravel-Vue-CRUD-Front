@@ -5,11 +5,10 @@ import ListCompanies from '@/pages/companies/ListPage.vue'
 import CreateCompany from '@/pages/companies/CreatePage.vue'
 import EditCompany from '@/pages/companies/EditPage.vue';
 import Logout from '@/pages/LogoutPage.vue';
+import {getValue} from '@/utils/localStorage';
 
-const storage = require('@/utils/localStorage');
-
-const ifAuthenticated = () => {
-    return !!storage.get('token');
+const isAuthenticated = () => {
+    return !!getValue('token');
 };
 
 const routes = [
@@ -19,7 +18,7 @@ const routes = [
         component: Login,
         meta: { requiresAuth: false },
         beforeEnter: () => {
-            return !ifAuthenticated()
+            return !isAuthenticated()
         },
     },
     {
@@ -28,7 +27,7 @@ const routes = [
         component: Registration,
         meta: { requiresAuth: false },
         beforeEnter: () => {
-            return !ifAuthenticated()
+            return !isAuthenticated()
         },
     },
     {
@@ -37,7 +36,7 @@ const routes = [
         component: Logout,
         meta: { requiresAuth: true },
         beforeEnter: () => {
-            return ifAuthenticated()
+            return isAuthenticated()
         },
     },
     {
@@ -46,7 +45,7 @@ const routes = [
         component: EditCompany,
         meta: { requiresAuth: true },
         beforeEnter: () => {
-            return ifAuthenticated()
+            return isAuthenticated()
         },
     },
     {
@@ -55,7 +54,7 @@ const routes = [
         name: 'ListCompanies',
         meta: { requiresAuth: true },
         beforeEnter: () => {
-            return ifAuthenticated()
+            return isAuthenticated()
         },
     },
     {
@@ -64,7 +63,7 @@ const routes = [
         name: 'CreateCompany',
         meta: { requiresAuth: true },
         beforeEnter: () => {
-            return ifAuthenticated()
+            return isAuthenticated()
         },
     },
 ]
