@@ -5,10 +5,10 @@ import ListCompanies from '@/pages/companies/ListPage.vue'
 import CreateCompany from '@/pages/companies/CreatePage.vue'
 import EditCompany from '@/pages/companies/EditPage.vue';
 import Logout from '@/pages/LogoutPage.vue';
-import {getValue} from '@/utils/localStorage';
+import LocalStorage from '@/utils/localStorage'
 
 const isAuthenticated = () => {
-    return !!getValue('token');
+    return !!LocalStorage.getValue('token');
 };
 
 const routes = [

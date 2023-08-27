@@ -7,8 +7,8 @@
 <script>
   export default {
     props: [
-        'field',
-        'errors'
+      'field',
+      'errors'
     ]
   }
 </script>

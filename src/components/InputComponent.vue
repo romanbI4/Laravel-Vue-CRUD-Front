@@ -12,10 +12,10 @@
 <script>
   export default {
     props: [
-        'field',
-        'value',
-        'submitted',
-        'errors'
+      'field',
+      'value',
+      'submitted',
+      'errors'
     ],
     emits: [
       'update:field'

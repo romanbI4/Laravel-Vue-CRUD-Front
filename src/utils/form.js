@@ -1,9 +1,12 @@
-export function setFields(fields){
-    const form = new FormData();
+export default class Form {
 
-    Object.keys(fields).forEach(function(key) {
-        form.append(key, fields[key]);
-    });
+    static setFields(fields) {
+        const form = new FormData();
 
-    return form;
+        Object.keys(fields).forEach(function (key) {
+            form.append(key, fields[key]);
+        });
+
+        return form;
+    }
 }

@@ -14,8 +14,8 @@
       }
     },
     props: [
-        'loading',
-        'textButton'
+      'loading',
+      'textButton'
     ]
   }
 </script>

@@ -15,48 +15,52 @@
 <script>
 import InputComponent from '@/components/InputComponent.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
-import {register} from '@/services/api/authRequest';
-import {setFields} from '@/utils/form';
+import AuthService from '@/services/api/AuthService';
+import Form from '@/utils/form';
+import router from '@/router';
 
 export default {
-    data() {
-        return {
-            email: "",
-            password: "",
-            first_name: "",
-            last_name: "",
-            phone: "",
-            submitted: false,
-            loading: false,
-            returnUrl: "",
-            errors: ""
-        };
-    },
-    methods: {
-        async handleSubmit() {
-            this.submitted = true;
-            
-            this.loading = true;
+  data() {
+    return {
+      email: "",
+      password: "",
+      first_name: "",
+      last_name: "",
+      phone: "",
+      submitted: false,
+      loading: false,
+      returnUrl: "",
+      errors: ""
+    };
+  },
+  methods: {
+    async handleSubmit() {
+      this.submitted = true;
 
-            const fields = {
-              'email': this.email,
-              'password': this.password,
-              "first_name": this.first_name,
-              "last_name": this.last_name,
-              "phone": this.phone
-            };
+      this.loading = true;
 
-            const data = setFields(fields);
+      const fields = {
+        'email': this.email,
+        'password': this.password,
+        "first_name": this.first_name,
+        "last_name": this.last_name,
+        "phone": this.phone
+      };
 
-            const response = await register(data);
+      const data = Form.setFields(fields);
 
-            if (response.errors) {
-              this.errors = response.errors;
-              this.loading = response.loading;
-              this.submitted = response.submitted;
-            }
-        }
-    },
-    components: { InputComponent, ButtonComponent }
+      try {
+        await AuthService.register(data);
+
+        router.push('/login');
+      } catch (error) {
+        this.errors = error.response.data.errors;
+      } finally {
+        this.loading = false;
+        this.submitted = false;
+      }
+    }
+  },
+  components: {InputComponent, ButtonComponent}
 }
 </script>

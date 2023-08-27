@@ -14,44 +14,49 @@
 import ErrorComponent from '@/components/ErrorComponent.vue';
 import InputComponent from '@/components/InputComponent.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
-import {login} from '@/services/api/authRequest';
-import {setFields} from '@/utils/form';
+import AuthService from '@/services/api/AuthService';
+import LocalStorage from '@/utils/localStorage';
+import Form from '@/utils/form';
+import router from '@/router';
 
 export default {
-    data() {
-        return {
-            email: "",
-            password: "",
-            submitted: false,
-            loading: false,
-            returnUrl: "",
-            errors: "",
-            token: ""
-        };
-    },
-    methods: {
-        async handleSubmit() {
-            this.submitted = true;
+  data() {
+    return {
+      email: "",
+      password: "",
+      submitted: false,
+      loading: false,
+      returnUrl: "",
+      errors: "",
+      token: ""
+    };
+  },
+  methods: {
+    async handleSubmit() {
+      this.submitted = true;
+      this.loading = true;
 
-            this.loading = true;
-            
-            const fields = {
-              'email' : this.email,
-              'password' : this.password,
-            };
+      const fields = {
+        'email': this.email,
+        'password': this.password,
+      };
 
-            const data = setFields(fields);
+      const data = Form.setFields(fields);
 
-            const response = await login(data);
+      try {
+        const response = await AuthService.login(data);
 
-            if (response.errors) {
-              this.errors = response.errors;
-              this.loading = response.loading;
-              this.submitted = response.submitted;
-            }
+        LocalStorage.setValue("token", response.data.token);
 
-        }
-    },
-    components: { InputComponent, ErrorComponent, ButtonComponent }
+        router.push('/companies');
+      } catch (error) {
+        this.errors = error.response.data.errors;
+      } finally {
+        this.loading = false;
+        this.submitted = false;
+      }
+    }
+  },
+  components: {InputComponent, ErrorComponent, ButtonComponent}
 }
 </script>

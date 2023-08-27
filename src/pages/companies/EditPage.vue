@@ -13,7 +13,8 @@
 <script>
 import InputComponent from '@/components/InputComponent.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
-import {getById, updateById} from '@/services/api/companyRequest';
+import CompanyService from '@/services/api/CompanyService';
+import router from '@/router';
 
 export default {
   data() {
@@ -33,11 +34,18 @@ export default {
   },
   methods: {
     async getCompanyById() {
-      const response = await getById(this.id);
+      try {
+        const response = await CompanyService.getById(this.id);
 
-      this.title = response.title;
-      this.description = response.description;
-      this.phone = response.phone;
+        this.title = response.data.data.title;
+        this.description = response.data.data.description;
+        this.phone = response.data.data.phone;
+      } catch {
+        this.errors = this.response.errors;
+      } finally {
+        this.loading = false;
+        this.submitted = false;
+      }
     },
     async handleSubmit() {
       this.submitted = true;
@@ -50,17 +58,23 @@ export default {
         'description': this.$data.description,
       };
 
-      const response = await updateById(this.id, this.data);
+      try {
+        const response = await CompanyService.updateById(this.id, this.data);
 
-      if (response.errors) {
-        this.errors = response.errors;
-        this.loading = response.loading;
-        this.submitted = response.submitted;
+        alert('Updated');
+
+        router.push('/companies');
+
+        return response.data.data;
+      } catch (error) {
+        this.errors = error.response.data.errors;
+      } finally {
+        this.loading = false;
+        this.submitted = false;
       }
-
     }
   },
-  components: { InputComponent, ButtonComponent }
+  components: {InputComponent, ButtonComponent}
 };
 
 </script>

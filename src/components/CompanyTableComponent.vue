@@ -31,7 +31,7 @@
             <router-link :to="{
                   name: 'EditCompany',
                   params: { 
-                    id: company.id 
+                    id: company.id
                   },
                 }" class="btn">
               <i class="material-icons">edit</i>
@@ -46,17 +46,29 @@
 </template>
 
 <script>
-import { deleteByid } from '@/services/api/companyRequest';
+import CompanyService from '@/services/api/CompanyService';
 
 export default {
-    props: [
-        'columns',
-        'companies'
-    ],
-    methods: {
-        deleteCompany(id) {
-          deleteByid(id);
-        }
+  props: [
+    'columns',
+    'companies'
+  ],
+  methods: {
+    deleteCompany(id) {
+      try {
+        CompanyService.deleteByid(id);
+
+        alert('Deleted');
+
+        location.reload();
+      } catch (error) {
+        this.errors = error.response.data.errors;
+      } finally {
+        this.loading = false;
+        this.submitted = false;
+      }
+
     }
+  }
 }
 </script>

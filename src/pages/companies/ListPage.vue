@@ -4,26 +4,26 @@
 
 <script>
 import CompanyTableComponent from '@/components/CompanyTableComponent.vue';
-import {getList} from'@/services/api/companyRequest';
+import CompanyService from '@/services/api/CompanyService';
 
 export default {
-    data() {
-        return {
-            loading: false,
-            errors: "",
-            columns: ['ID', 'Title', 'Phone', 'Description', 'Created At', 'Updated At'],
-            companies: []
-        };
-    },
-    mounted() {
-        this.getList();
-    },
-    methods: {
-        async getList() {
-            this.companies = await getList();
-        }
-    },
-    components: { CompanyTableComponent }
+  data() {
+    return {
+      loading: false,
+      errors: "",
+      columns: ['ID', 'Title', 'Phone', 'Description', 'Created At', 'Updated At'],
+      companies: []
+    };
+  },
+  mounted() {
+    this.getList();
+  },
+  methods: {
+    async getList() {
+      return this.companies = (await CompanyService.getList()).data.data;
+    }
+  },
+  components: {CompanyTableComponent}
 };
 
 </script>
