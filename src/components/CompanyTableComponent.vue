@@ -8,7 +8,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="company in companies" :key="company.id">
+        <tr @change="this.updateEvent()" v-for="company in companies" :key="company.id">
           <td>
             {{company.id}}
           </td>
@@ -53,7 +53,13 @@ export default {
     'columns',
     'companies'
   ],
+  emits: [
+    'update:companies'
+  ],
   methods: {
+    updateEvent() {
+      return this.$emit('update:companies', (CompanyService.getList()).data.data);
+    },
     deleteCompany(id) {
       try {
         CompanyService.deleteByid(id);
