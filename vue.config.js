@@ -5,7 +5,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://lumen.loc:8084/api',
+        target: 'http://localhost:8000/api',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

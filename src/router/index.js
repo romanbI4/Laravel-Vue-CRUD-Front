@@ -1,14 +1,14 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import Login from '../components/LoginComponent.vue'
-import Registration from '../components/RegistationComponent.vue'
-import ResetPassword from '../components/ResetPasswordComponent.vue'
-import Logout from '../components/LogoutComponent.vue'
-import ListCompanies from '../components/companies/ListComponent.vue'
-import CreateCompany from '../components/companies/CreateComponent.vue'
-import EditCompany from '../components/companies/EditComponent';
+import Login from '@/pages/LoginPage.vue'
+import Registration from '@/pages/RegistationPage.vue'
+import ListCompanies from '@/pages/companies/ListPage.vue'
+import CreateCompany from '@/pages/companies/CreatePage.vue'
+import EditCompany from '@/pages/companies/EditPage.vue';
+import Logout from '@/pages/LogoutPage.vue';
+import LocalStorage from '@/utils/localStorage'
 
-const ifAuthenticated = () => {
-    return !!localStorage.getItem('token');
+const isAuthenticated = () => {
+    return !!LocalStorage.getValue('token');
 };
 
 const routes = [
@@ -18,7 +18,7 @@ const routes = [
         component: Login,
         meta: { requiresAuth: false },
         beforeEnter: () => {
-            return !ifAuthenticated()
+            return !isAuthenticated()
         },
     },
     {
@@ -27,16 +27,7 @@ const routes = [
         component: Registration,
         meta: { requiresAuth: false },
         beforeEnter: () => {
-            return !ifAuthenticated()
-        },
-    },
-    {
-        path: '/resetPassword',
-        name: 'ResetPassword',
-        component: ResetPassword,
-        meta: { requiresAuth: false },
-        beforeEnter: () => {
-            return !ifAuthenticated()
+            return !isAuthenticated()
         },
     },
     {
@@ -45,7 +36,7 @@ const routes = [
         component: Logout,
         meta: { requiresAuth: true },
         beforeEnter: () => {
-            return ifAuthenticated()
+            return isAuthenticated()
         },
     },
     {
@@ -54,7 +45,7 @@ const routes = [
         component: EditCompany,
         meta: { requiresAuth: true },
         beforeEnter: () => {
-            return ifAuthenticated()
+            return isAuthenticated()
         },
     },
     {
@@ -63,7 +54,7 @@ const routes = [
         name: 'ListCompanies',
         meta: { requiresAuth: true },
         beforeEnter: () => {
-            return ifAuthenticated()
+            return isAuthenticated()
         },
     },
     {
@@ -72,7 +63,7 @@ const routes = [
         name: 'CreateCompany',
         meta: { requiresAuth: true },
         beforeEnter: () => {
-            return ifAuthenticated()
+            return isAuthenticated()
         },
     },
 ]
